@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      main {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(71, 147, 218);
+      }
+
+      #lista {
+        display: flex;
+        list-style: none;
+      }
+
+      .tubo + .tubo {
+        margin-left: 1rem;
+      }
+
+      .tubo {
+        border: 0.25rem solid;
+        border-color: rgb(255, 255, 255);
+        width: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        border-bottom-left-radius: 1.5rem;
+        border-bottom-right-radius: 1.5rem;
+        border-top-width: 0;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .selecionado {
+        border-color: rgb(255, 0, 0);
+      }
+
+      .conteudo {
+        height: 2rem;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <ul id="lista"></ul>
+    </main>
+    <script>
+      const QUANTIDADE_POR_TUBO = 3;
+      const COLORS = {
+        amarelo: "#f5b942",
+        azul: "#4272f5",
+        verde: "#42f551",
+        vermelho: "#f54260",
+      };
+      Object.freeze(COLORS);
+
+      let tuboSelecionado = null;
+      let tubos = [
+        [COLORS.amarelo, COLORS.verde, COLORS.vermelho],
+        [COLORS.amarelo, COLORS.vermelho, COLORS.verde],
+        [],
+      ];
+
+      const onClicarTubo = (tubo, index) => {
+        if (tuboSelecionado === null) {
+          tuboSelecionado = { index, tubo };
+        } else {
+          if (tubo.length < QUANTIDADE_POR_TUBO) {
+            const corAtual = tubos[tuboSelecionado.index][0];
+            tubos[tuboSelecionado.index].shift();
+            tubos[index].unshift(corAtual);
+          }
+          tuboSelecionado = null;
+        }
+
+        showTubos();
+      };
+
+      const showTubos = () => {
+        const listaElement = document.getElementById("lista");
+        listaElement.innerHTML = "";
+        tubos.forEach((tubo, index) => {
+          const tuboElemento = document.createElement("li");
+          tuboElemento.style.height = QUANTIDADE_POR_TUBO * 2 + 1 + ".5rem";
+          tuboElemento.onclick = () => onClicarTubo(tubo, index);
+          const isSelecionado = tuboSelecionado?.index === index;
+          tuboElemento.className = `tubo ${isSelecionado ? "selecionado" : ""}`;
+          tubo.forEach((cor) => {
+            const conteudo = document.createElement("div");
+            conteudo.style.background = cor;
+            conteudo.className = "conteudo";
+            tuboElemento.appendChild(conteudo);
+          });
+          listaElement.appendChild(tuboElemento);
+        });
+      };
+      showTubos();
+    </script>
+  </body>
+</html>
