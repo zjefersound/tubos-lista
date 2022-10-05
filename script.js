@@ -1,20 +1,39 @@
-const QUANTIDADE_POR_TUBO = 4;
 const ALTURA_POR_CONTEUDO = 3;
 const COLORS = {
   amarelo: "#f5b942",
   azul: "#4272f5",
   verde: "#42f551",
   vermelho: "#f54260",
+  purple: "#7b42f5",
 };
 Object.freeze(COLORS);
-
+const QUANTIDADE_POR_TUBO = Object.entries(COLORS).length;
 let tuboSelecionado = null;
-let tubos = [
-  [COLORS.amarelo, COLORS.verde, COLORS.vermelho, COLORS.azul],
-  [COLORS.amarelo, COLORS.azul, COLORS.vermelho, COLORS.verde],
-  [COLORS.azul, COLORS.amarelo, COLORS.vermelho, COLORS.verde],
-  [],
-];
+
+const popularTubo = () => {
+  const cores = Object.entries(COLORS).map(([_, cor]) => cor);
+  const coresUtilizadas = [];
+  const newTubos = Array(cores.length - 1)
+    .fill(1)
+    .map((tubo) => {
+      tubo = [];
+      while (tubo.length < cores.length) {
+        const corAleatoria = cores[Math.floor(Math.random() * cores.length)];
+        if (
+          coresUtilizadas.filter((cor) => cor === corAleatoria).length <
+          cores.length-1
+        ) {
+          tubo.push(corAleatoria);
+          coresUtilizadas.push(corAleatoria);
+        }
+      }
+      return tubo;
+    });
+  newTubos.push([]);
+  return newTubos;
+};
+
+let tubos = popularTubo();
 
 const getPrimeirosItensDoTubo = (tempTubo, limit, itens = []) => {
   let tubo = [...tempTubo];
