@@ -1,0 +1,76 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+main {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgb(71, 147, 218);
+}
+
+#lista {
+  display: flex;
+  list-style: none;
+}
+
+.tubo + .tubo {
+  margin-left: 1rem;
+}
+
+.tubo {
+  border: 0.4rem solid;
+  border-color: rgb(255, 255, 255);
+  width: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  border-top-width: 0;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.tubo::after {
+  content: "";
+  display: flex;
+  height: calc(100% - 0.5rem);
+  width: 100%;
+  background: rgba(255, 255, 255, 20%);
+  position: absolute;
+}
+.tubo::before {
+  content: "";
+  display: flex;
+  height: 1rem;
+  width: 8rem;
+  z-index: 1;
+  top: 50%;
+  left: -50%;
+  rotate: -45deg;
+  background: rgba(255, 255, 255, 30%);
+  position: absolute;
+}
+
+.selecionado {
+  border-color: rgb(255, 0, 0);
+}
+
+.conteudo {
+  height: 3rem;
+  width: 100%;
+}
+#mensagem {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 1.5rem;
+}
